@@ -1,5 +1,5 @@
-#ifndef LISTASOLICITUD.HPP
-#define LISTASOLICITUD.HPP
+#ifndef LISTASOLICITUD_HPP
+#define LISTASOLICITUD_HPP
 #include "NodoSolicitud.hpp"
 
 class ListaSolicitud{
@@ -12,7 +12,7 @@ class ListaSolicitud{
         void mostrarPendientes();
         Solicitud consultarSolicitud(std:: string p);
         Solicitud cancelarSolicitud(std:: string p);
-        void procesarPrimera();
+        Solicitud procesarPrimera();
         void consultarPendientes();
 
 

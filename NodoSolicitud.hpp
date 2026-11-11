@@ -1,5 +1,5 @@
-#ifndef NODOSOLICITUD.HPP
-#define NODOSOLICITUD.HPP
+#ifndef NODOSOLICITUD_HPP
+#define NODOSOLICITUD_HPP
 #include "Solicitud.hpp"
 
 class NodoSolicitud{
@@ -14,6 +14,7 @@ class NodoSolicitud{
 
         Solicitud getSolicitud();
         NodoSolicitud getSiguiente();
+        void setSiguiente(NodoSolicitud);
         
 
 };

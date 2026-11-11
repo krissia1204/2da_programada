@@ -12,3 +12,4 @@ NodoSolicitud:: ~NodoSolicitud(){
 
 Solicitud NodoSolicitud:: getSolicitud(){ return this->dato; }
 NodoSolicitud NodoSolicitud:: getSiguiente(){ return this->siguiente; }
+void NodoSolicitud:: setSiguiente(NodoSolicitud n){ this->siguiente = n;}

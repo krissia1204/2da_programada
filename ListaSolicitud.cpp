@@ -44,5 +44,30 @@ Solicitud ListaSolicitud:: consultarSolicitud(std:: string p){
 }
 
 Solicitud ListaSolicitud:: cancelarSolicitud(std:: string p){
-    
+      NodoSolicitud* actual = cabeza;
+        while (actual->getSiguiente->getSolicitud()->getNumeroPlaca() != p) {
+            actual = actual->siguiente;
+        }
+        actual->setSiguiente(actual->getSiguiente()->getSiguiente());
+
+
+        return actual;
 }
+
+
+Solicitud ListaSolicitud:: procesarPrimera(){
+    if(cabeza==null){
+        throw underflow_error("Lista vacia")
+        return null;
+    }
+
+    NodoSolicitud* procesar= cabeza;
+    Solicitud p= procesar->getSolicitud();
+
+    cabeza= cabeza->getSiguiente();
+
+    delete procesar;
+
+    return p;
+}
+

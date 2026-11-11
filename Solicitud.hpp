@@ -1,9 +1,9 @@
-#ifndef SOLICITUD.HPP
-#define SOLICITUD.HPP
+#ifndef SOLICITUD_HPP
+#define SOLICITUD_HPP
 #include <string>
 
 class Solicitud{
-    private:
+    protected:
         std::string numPlaca;
         std::string nombrePropietario;
         bool tipoVehiculo;
