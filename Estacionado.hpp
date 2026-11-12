@@ -9,10 +9,11 @@ class Estacionado: public Solicitud {
        std:: string idAutorizacion;
 
     public:
-        Estacionado();
+        Estacionado(std::string numP, std::string nom, bool tipo, int numS, std:: string id);
         ~Estacionado();
         int getFila();
         int getColumna();
         std:: string getID();
+        
 };
 #endif

@@ -11,7 +11,7 @@ class Solicitud{
 
     public:
         Solicitud(std::string numP, std::string nom, bool tipo, int numS);
-        ~Solicitud();
+        virtual ~Solicitud();
         std::string getNumeroPlaca();
         std::string getNombrePropietario();
         bool getTipoVehiculo();

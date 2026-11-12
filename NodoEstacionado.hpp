@@ -5,19 +5,19 @@
 class NodoEstacionado{
 
     private:
-        Estacionado dato;
+        Estacionado* dato;
         NodoEstacionado* siguiente;
         NodoEstacionado* anterior;
 
     public:
-        NodoEstacionado(Estacionado s);
+        NodoEstacionado(Estacionado* s);
         ~NodoEstacionado();
 
-        Estacionado getSolicitud();
-        NodoEstacionado getSiguiente();
-        NodoEstacionado getAnterior();
-        void setSiguiente(NodoEstacionado s);
-        void setAnterior(NodoEstacionado s);
+        Estacionado* getEstacionado();
+        NodoEstacionado* getSiguiente();
+        NodoEstacionado* getAnterior();
+        void setSiguiente(NodoEstacionado* s);
+        void setAnterior(NodoEstacionado* s);
         
 
 };
