@@ -1,5 +1,5 @@
-#ifndef ESTACIONAMIENTO_HPP
-#define ESTACIONAMIENTO_HPP
+#ifndef ESTACIONAMIENTO.HPP
+#define ESTACIONAMIENTO.HPP
 
 class Estacionamiento
 {
