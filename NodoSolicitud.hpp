@@ -1,19 +1,20 @@
-#ifndef NODOSOLICITUD.HPP
-#define NODOSOLICITUD.HPP
+#ifndef NODOSOLICITUD_HPP
+#define NODOSOLICITUD_HPP
 #include "Solicitud.hpp"
 
 class NodoSolicitud{
 
     private:
-        Solicitud dato;
-        NodoSolicitud siguiente;
+        Solicitud* dato;
+        NodoSolicitud* siguiente;
 
     public:
-        NodoSolicitud(Solicitud s);
+        NodoSolicitud(Solicitud* s);
         ~NodoSolicitud();
 
-        Solicitud getSolicitud();
-        NodoSolicitud getSiguiente();
+        Solicitud* getSolicitud();
+        NodoSolicitud* getSiguiente();
+        void setSiguiente(NodoSolicitud* n);
         
 
 };

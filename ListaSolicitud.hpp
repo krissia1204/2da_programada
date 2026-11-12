@@ -1,18 +1,18 @@
-#ifndef LISTASOLICITUD.HPP
-#define LISTASOLICITUD.HPP
+#ifndef LISTASOLICITUD_HPP
+#define LISTASOLICITUD_HPP
 #include "NodoSolicitud.hpp"
 
 class ListaSolicitud{
     private:
-        NodoSolicitud cabeza;
+        NodoSolicitud* cabeza;
     public:
         ListaSolicitud();
         ~ListaSolicitud();
-        void registrarNueva();
+        void registrarNueva(Solicitud* s);
         void mostrarPendientes();
-        Solicitud consultarSolicitud(std:: string p);
-        Solicitud cancelarSolicitud(std:: string p);
-        void procesarPrimera();
+        Solicitud* consultarSolicitud(std:: string p);
+        Solicitud* cancelarSolicitud(std:: string p);
+        Solicitud* procesarPrimera();
         void consultarPendientes();
 
 
