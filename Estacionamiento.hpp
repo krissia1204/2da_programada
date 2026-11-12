@@ -1,19 +1,27 @@
 #ifndef ESTACIONAMIENTO.HPP
 #define ESTACIONAMIENTO.HPP
 
-class Estacionamiento{
+class Estacionamiento
+{
     private:
         int columnas;
         int filas;
         int** espacios;
-    public:
+
+        
+    public: // los separe por lo q hacen
         Estacionamiento(int f, int c);
         ~Estacionamiento();
-        void ingresarVehiculo();
+
+        bool buscarEspacioDisponible(int& f, int& c);
+        void ingresarVehiculo(int f, int c);
         void liberarEspacio(int f, int c);
+
         void mostrarEstado();
         int calcDisponibles();
         int calcOcupados();
         double porcentajeOcupacion();
-};
+}
+;
+
 #endif
