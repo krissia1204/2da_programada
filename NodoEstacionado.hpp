@@ -6,8 +6,8 @@ class NodoEstacionado{
 
     private:
         Estacionado dato;
-        NodoEstacionado siguiente;
-        NodoEstacionado anterior;
+        NodoEstacionado* siguiente;
+        NodoEstacionado* anterior;
 
     public:
         NodoEstacionado(Estacionado s);

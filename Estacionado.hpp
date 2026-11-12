@@ -1,6 +1,7 @@
 #ifndef ESTACIONADO_HPP
 #define ESTACIONADO_HPP
 #include <string>
+#include "Solicitud.hpp"
 class Estacionado: public Solicitud {
     private:
        int fila;

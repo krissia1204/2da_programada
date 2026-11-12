@@ -5,16 +5,16 @@
 class NodoSolicitud{
 
     private:
-        Solicitud dato;
-        NodoSolicitud siguiente;
+        Solicitud* dato;
+        NodoSolicitud* siguiente;
 
     public:
-        NodoSolicitud(Solicitud s);
+        NodoSolicitud(Solicitud* s);
         ~NodoSolicitud();
 
-        Solicitud getSolicitud();
-        NodoSolicitud getSiguiente();
-        void setSiguiente(NodoSolicitud);
+        Solicitud* getSolicitud();
+        NodoSolicitud* getSiguiente();
+        void setSiguiente(NodoSolicitud* n);
         
 
 };

@@ -2,9 +2,9 @@
 #define  LISTAENCARGADOS_HPP
 #include "NodoEncargado.hpp"
 
-class ListaSolicitud{
+class ListaEncargados{
     private:
-        NodoSolicitud cabeza;
+        NodoEncargado cabeza;
     public:
         ListaEncargados();
         ~ListaEncargados();

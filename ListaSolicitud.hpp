@@ -4,15 +4,15 @@
 
 class ListaSolicitud{
     private:
-        NodoSolicitud cabeza;
+        NodoSolicitud* cabeza;
     public:
         ListaSolicitud();
         ~ListaSolicitud();
-        void registrarNueva();
+        void registrarNueva(Solicitud* s);
         void mostrarPendientes();
-        Solicitud consultarSolicitud(std:: string p);
-        Solicitud cancelarSolicitud(std:: string p);
-        Solicitud procesarPrimera();
+        Solicitud* consultarSolicitud(std:: string p);
+        Solicitud* cancelarSolicitud(std:: string p);
+        Solicitud* procesarPrimera();
         void consultarPendientes();
 
 

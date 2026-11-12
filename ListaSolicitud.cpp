@@ -1,15 +1,16 @@
 #include "ListaSolicitud.hpp"
 #include <iostream>
+#include <stdexcept>
 
 ListaSolicitud:: ListaSolicitud(){
-    this->cabeza= nullptr;
+    this->cabeza = nullptr;
 }
 
 ListaSolicitud:: ~ListaSolicitud(){
 
 }
 
-void  ListaSolicitud:: registrarNueva(Solicitud s){
+void  ListaSolicitud:: registrarNueva(Solicitud* s){
     NodoSolicitud* nuevo = new NodoSolicitud(s);
 
         if (cabeza == nullptr) {
@@ -18,51 +19,51 @@ void  ListaSolicitud:: registrarNueva(Solicitud s){
         }
 
         NodoSolicitud* actual = cabeza;
-        while (actual->siguiente != nullptr) {
-            actual = actual->siguiente;
+        while (actual->getSiguiente() != nullptr) {
+            actual = actual->getSiguiente();
         }
-        actual->siguiente = nuevo;
+        actual->setSiguiente(nuevo);
 }
 
 void ListaSolicitud:: mostrarPendientes(){
     NodoSolicitud* actual = cabeza;
         while (actual != nullptr) {
             actual->getSolicitud()->mostrarDatos();
-            actual = actual->siguiente;
+            actual = actual->getSiguiente();
         }
         
 }
 
-Solicitud ListaSolicitud:: consultarSolicitud(std:: string p){
+Solicitud* ListaSolicitud:: consultarSolicitud(std:: string p){
     NodoSolicitud* actual = cabeza;
-        while (actual->getSolicitud().getNumeroPlaca() != p) {
-            actual = actual->siguiente;
+        while (actual->getSolicitud()->getNumeroPlaca() != p) {
+            actual = actual->getSiguiente();
         }
 
-        return actual;
+        return actual->getSolicitud();
         
 }
 
-Solicitud ListaSolicitud:: cancelarSolicitud(std:: string p){
+Solicitud* ListaSolicitud:: cancelarSolicitud(std:: string p){
       NodoSolicitud* actual = cabeza;
-        while (actual->getSiguiente->getSolicitud()->getNumeroPlaca() != p) {
-            actual = actual->siguiente;
+        while (actual->getSiguiente()->getSolicitud()->getNumeroPlaca() != p) {
+            actual = actual->getSiguiente();
         }
         actual->setSiguiente(actual->getSiguiente()->getSiguiente());
 
 
-        return actual;
+        return actual->getSolicitud();
 }
 
 
-Solicitud ListaSolicitud:: procesarPrimera(){
-    if(cabeza==null){
-        throw underflow_error("Lista vacia")
-        return null;
+Solicitud* ListaSolicitud:: procesarPrimera(){
+    if(cabeza==nullptr){
+        throw std::underflow_error("Lista vacia");
+    
     }
 
     NodoSolicitud* procesar= cabeza;
-    Solicitud p= procesar->getSolicitud();
+    Solicitud* p= procesar->getSolicitud();
 
     cabeza= cabeza->getSiguiente();
 

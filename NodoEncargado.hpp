@@ -6,7 +6,7 @@ class NodoEncargado{
 
     private:
         Encargado dato;
-        NodoSolicitud siguiente;
+        NodoEncargado* siguiente;
 
     public: 
         NodoEncargado(Encargado e);
