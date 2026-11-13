@@ -1,17 +1,15 @@
 #include "NodoEstacionado.hpp"
 
-NodoEstacionado:: NodoEstacionado(Estacionado* s){
-    this->dato= s;
-    this->anterior= nullptr;
-    this->siguiente= nullptr;
+NodoEstacionado::NodoEstacionado(Estacionado* s) {
+    this->dato = s;
+    this->anterior = nullptr;
+    this->siguiente = nullptr;
 }
 
-NodoEstacionado:: ~NodoEstacionado(){
+NodoEstacionado::~NodoEstacionado() {}
 
-}
-
-Estacionado* NodoEstacionado:: getEstacionado(){ return dato;}
-NodoEstacionado* NodoEstacionado:: getAnterior(){return anterior;}
-NodoEstacionado* NodoEstacionado:: getSiguiente(){return siguiente;}
-void NodoEstacionado:: setAnterior(NodoEstacionado* n){ anterior= n;}
-void NodoEstacionado:: setSiguiente(NodoEstacionado* n){ siguiente= n;}
+Estacionado* NodoEstacionado::getEstacionado() const { return this->dato; }
+NodoEstacionado* NodoEstacionado::getAnterior() const { return this->anterior; }
+NodoEstacionado* NodoEstacionado::getSiguiente() const { return this->siguiente; }
+void NodoEstacionado::setAnterior(NodoEstacionado* n) { this->anterior = n; }
+void NodoEstacionado::setSiguiente(NodoEstacionado* n) { this->siguiente = n; }

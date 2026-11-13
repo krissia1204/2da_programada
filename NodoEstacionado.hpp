@@ -1,9 +1,9 @@
 #ifndef NODOESTACIONADO_HPP
 #define NODOESTACIONADO_HPP
+
 #include "Estacionado.hpp"
 
-class NodoEstacionado{
-
+class NodoEstacionado {
     private:
         Estacionado* dato;
         NodoEstacionado* siguiente;
@@ -13,12 +13,11 @@ class NodoEstacionado{
         NodoEstacionado(Estacionado* s);
         ~NodoEstacionado();
 
-        Estacionado* getEstacionado();
-        NodoEstacionado* getSiguiente();
-        NodoEstacionado* getAnterior();
+        Estacionado* getEstacionado() const;
+        NodoEstacionado* getSiguiente() const;
+        NodoEstacionado* getAnterior() const;
         void setSiguiente(NodoEstacionado* s);
         void setAnterior(NodoEstacionado* s);
-        
-
 };
-#endif;
+
+#endif

@@ -1,9 +1,9 @@
 #ifndef NODOSOLICITUD_HPP
 #define NODOSOLICITUD_HPP
+
 #include "Solicitud.hpp"
 
-class NodoSolicitud{
-
+class NodoSolicitud {
     private:
         Solicitud* dato;
         NodoSolicitud* siguiente;
@@ -12,10 +12,9 @@ class NodoSolicitud{
         NodoSolicitud(Solicitud* s);
         ~NodoSolicitud();
 
-        Solicitud* getSolicitud();
-        NodoSolicitud* getSiguiente();
+        Solicitud* getSolicitud() const;
+        NodoSolicitud* getSiguiente() const;
         void setSiguiente(NodoSolicitud* n);
-        
-
 };
-#endif;
+
+#endif

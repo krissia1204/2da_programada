@@ -2,165 +2,208 @@
 #include <iostream>
 #include <stdexcept>
 
+// --- Implementacion del Iterador Circular (una vuelta exacta) ---
+ListaCircularEncargados::Iterador::Iterador(NodoEncargado* nodo, int total) {
+    this->actual = nodo;
+    this->restantes = total;
+}
 
-ListaCircularEncargados::ListaCircularEncargados()
-{
+Encargado& ListaCircularEncargados::Iterador::operator*() const {
+    if (this->actual == nullptr || this->restantes <= 0) {
+        throw std::out_of_range("No se puede desreferenciar un iterador al final de la lista.");
+    }
+    return *(this->actual->getEncargado());
+}
+
+ListaCircularEncargados::Iterador& ListaCircularEncargados::Iterador::operator++() {
+    if (this->actual != nullptr && this->restantes > 0) {
+        this->actual = this->actual->getSiguiente();
+        this->restantes--;
+        if (this->restantes == 0) {
+            this->actual = nullptr;
+        }
+    }
+    return *this;
+}
+
+bool ListaCircularEncargados::Iterador::operator!=(const Iterador& otro) const {
+    return this->restantes != otro.restantes || this->actual != otro.actual;
+}
+
+ListaCircularEncargados::Iterador ListaCircularEncargados::begin() const {
+    if (this->cabeza == nullptr || this->cant == 0) {
+        return Iterador(nullptr, 0);
+    }
+    return Iterador(this->cabeza, this->cant);
+}
+
+ListaCircularEncargados::Iterador ListaCircularEncargados::end() const {
+    return Iterador(nullptr, 0);
+}
+
+// --- Implementacion de ListaCircularEncargados ---
+ListaCircularEncargados::ListaCircularEncargados() {
     this->cabeza = nullptr;
     this->turnoActual = nullptr;
     this->cant = 0;
 }
 
-ListaCircularEncargados::~ListaCircularEncargados()
-{
-    if (cabeza != nullptr)
-    {
-        NodoEncargado* actual = cabeza;
-        NodoEncargado* siguiente = nullptr;
-
-        NodoEncargado* ultimo = cabeza;
-        while (ultimo->getSiguiente() != cabeza)
-        {
+ListaCircularEncargados::~ListaCircularEncargados() {
+    if (this->cabeza != nullptr) {
+        NodoEncargado* ultimo = this->cabeza;
+        while (ultimo->getSiguiente() != this->cabeza) {
             ultimo = ultimo->getSiguiente();
         }
         ultimo->setSiguiente(nullptr);
 
-        while (actual != nullptr)
-        {
-            siguiente = actual->getSiguiente();
+        NodoEncargado* actual = this->cabeza;
+        while (actual != nullptr) {
+            NodoEncargado* siguiente = actual->getSiguiente();
             delete actual;
             actual = siguiente;
         }
     }
+    this->cabeza = nullptr;
+    this->turnoActual = nullptr;
+    this->cant = 0;
 }
 
-bool ListaCircularEncargados::estaVacia() 
-{
-    return cabeza == nullptr;
+bool ListaCircularEncargados::estaVacia() const {
+    return this->cabeza == nullptr;
 }
 
-void ListaCircularEncargados::registrarEncargado(Encargado* e) 
-{
+int ListaCircularEncargados::getCantidad() const {
+    return this->cant;
+}
+
+bool ListaCircularEncargados::existeID(std::string id) const {
+    // Uso del iterador en busqueda
+    for (Iterador it = this->begin(); it != this->end(); ++it) {
+        if ((*it).getID() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void ListaCircularEncargados::registrarEncargado(Encargado* e) {
+    if (e == nullptr) {
+        throw std::invalid_argument("El encargado no puede ser nulo.");
+    }
+    if (this->existeID(e->getID())) {
+        throw std::logic_error("Ya existe un encargado registrado con ese ID.");
+    }
+
     NodoEncargado* nuevo = new NodoEncargado(e);
-    if (estaVacia()) {
-        cabeza = nuevo;
-        nuevo->setSiguiente(cabeza);
-        turnoActual = cabeza;
+    if (this->estaVacia()) {
+        this->cabeza = nuevo;
+        nuevo->setSiguiente(this->cabeza);
+        this->turnoActual = this->cabeza;
     } else {
-        NodoEncargado* actual = cabeza;
-        while (actual->getSiguiente() != cabeza) {
+        NodoEncargado* actual = this->cabeza;
+        while (actual->getSiguiente() != this->cabeza) {
             actual = actual->getSiguiente();
         }
         actual->setSiguiente(nuevo);
-        nuevo->setSiguiente(cabeza);
+        nuevo->setSiguiente(this->cabeza);
     }
-    cant++;
+    this->cant++;
 }
 
-void ListaCircularEncargados::eliminarEncargado(std::string id) 
-{
-    if (estaVacia()) 
-    {
-        std::cout << ("No hay encargados registrados para eliminar.\n");
+void ListaCircularEncargados::eliminarEncargado(std::string id) {
+    if (id.empty()) {
+        throw std::invalid_argument("El ID del encargado no puede estar vacio.");
+    }
+    if (this->estaVacia()) {
+        throw std::underflow_error("No hay encargados registrados para eliminar.");
     }
 
-    NodoEncargado* actual = cabeza;
+    NodoEncargado* actual = this->cabeza;
     NodoEncargado* anterior = nullptr;
     bool encontrado = false;
 
     do {
-        if (actual->getEncargado()->getID() == id) 
-        {
+        if (actual->getEncargado()->getID() == id) {
             encontrado = true;
             break;
         }
         anterior = actual;
         actual = actual->getSiguiente();
-    } while (actual != cabeza);
+    } while (actual != this->cabeza);
 
-    if (!encontrado) 
-    {
-        std::cout << ("El encargado no existe.\n");
+    if (!encontrado) {
+        throw std::out_of_range("El encargado con el ID indicado no existe.");
     }
 
-    if (cant == 1) 
-    {
+    if (this->cant == 1) {
         delete actual;
-        cabeza = nullptr;
-        turnoActual = nullptr;
-    } 
-
-    else if (actual == cabeza) 
-    {
-        NodoEncargado* ultimo = cabeza;
-        while (ultimo->getSiguiente() != cabeza) 
-        {
+        this->cabeza = nullptr;
+        this->turnoActual = nullptr;
+    } else if (actual == this->cabeza) {
+        NodoEncargado* ultimo = this->cabeza;
+        while (ultimo->getSiguiente() != this->cabeza) {
             ultimo = ultimo->getSiguiente();
         }
-        cabeza = cabeza->getSiguiente();
-        ultimo->setSiguiente(cabeza);
-        if (turnoActual == actual) 
-        {
-            turnoActual = cabeza;
+        this->cabeza = this->cabeza->getSiguiente();
+        ultimo->setSiguiente(this->cabeza);
+        if (this->turnoActual == actual) {
+            this->turnoActual = this->cabeza;
         }
         delete actual;
-    } 
-
-    else 
-    {
+    } else {
         anterior->setSiguiente(actual->getSiguiente());
-        if (turnoActual == actual) 
-        {
-            turnoActual = actual->getSiguiente();
+        if (this->turnoActual == actual) {
+            this->turnoActual = actual->getSiguiente();
         }
         delete actual;
     }
-    cant--;
+    this->cant--;
 }
 
-Encargado* ListaCircularEncargados::consultarSiguiente() 
-{
-    if (estaVacia()) 
-    {
-        std::cout << ("No hay encargados disponibles.");
+Encargado* ListaCircularEncargados::consultarSiguiente() const {
+    if (this->estaVacia()) {
+        throw std::logic_error("No hay encargados disponibles.");
     }
-    return turnoActual->getEncargado();
+    return this->turnoActual->getEncargado();
 }
 
-void ListaCircularEncargados::avanzarTurno() 
-{
-    if (!estaVacia()) 
-    {
-        turnoActual = turnoActual->getSiguiente();
+void ListaCircularEncargados::avanzarTurno() {
+    if (this->estaVacia()) {
+        throw std::logic_error("No hay encargados disponibles para avanzar turno.");
     }
+    this->turnoActual = this->turnoActual->getSiguiente();
 }
 
-Encargado* ListaCircularEncargados::asignarEncargado() 
-{
-    if (estaVacia()) 
-    {
-        std::cout << ("No hay encargados disponibles.\n");
+Encargado* ListaCircularEncargados::asignarEncargado() {
+    if (this->estaVacia()) {
+        throw std::logic_error("No hay encargados disponibles.");
     }
-    Encargado* asignado = turnoActual->getEncargado();
-    avanzarTurno();
+    Encargado* asignado = this->turnoActual->getEncargado();
+    this->avanzarTurno();
     return asignado;
 }
 
-void ListaCircularEncargados::mostrarEncargados() 
-{
-    if (estaVacia()) 
-    {
+void ListaCircularEncargados::mostrarEncargados() const {
+    if (this->estaVacia()) {
         std::cout << "No hay encargados registrados.\n";
         return;
     }
+    // Uso obligatorio del iterador para listar
+    for (Iterador it = this->begin(); it != this->end(); ++it) {
+        std::cout << "ID: " << (*it).getID()
+                  << " | Nombre: " << (*it).getNombre()
+                  << " | Atendidos: " << (*it).getCantAtendidos() << "\n";
+    }
+}
 
-    NodoEncargado* actual = cabeza;
-
-    do 
-    {
-        std::cout << "ID: " << actual->getEncargado()->getID();
-        std::cout << " Nombre: " << actual->getEncargado()->getNombre(); 
-        std::cout << " | Atendidos: " << actual->getEncargado()->getCantAtendidos(); 
-        std::cout << "\n";
-        actual = actual->getSiguiente();
-    } while (actual != cabeza);
+void ListaCircularEncargados::mostrarOrdenRotacion() const {
+    if (this->estaVacia()) {
+        std::cout << "No hay encargados registrados.\n";
+        return;
+    }
+    std::cout << "Orden de rotacion: ";
+    for (Iterador it = this->begin(); it != this->end(); ++it) {
+        std::cout << (*it).getNombre() << " -> ";
+    }
+    std::cout << this->cabeza->getEncargado()->getNombre() << "\n";
 }

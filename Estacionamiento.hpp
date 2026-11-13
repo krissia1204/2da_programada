@@ -1,27 +1,27 @@
-#ifndef ESTACIONAMIENTO.HPP
-#define ESTACIONAMIENTO.HPP
+#ifndef ESTACIONAMIENTO_HPP
+#define ESTACIONAMIENTO_HPP
 
-class Estacionamiento
-{
+class Estacionamiento {
     private:
-        int columnas;
         int filas;
+        int columnas;
         int** espacios;
 
-        
-    public: // los separe por lo q hacen
+    public:
         Estacionamiento(int f, int c);
         ~Estacionamiento();
 
-        bool buscarEspacioDisponible(int& f, int& c);
+        Estacionamiento(const Estacionamiento&) = delete;
+        Estacionamiento& operator=(const Estacionamiento&) = delete;
+
+        bool buscarEspacioDisponible(int& f, int& c) const;
         void ingresarVehiculo(int f, int c);
         void liberarEspacio(int f, int c);
 
-        void mostrarEstado();
-        int calcDisponibles();
-        int calcOcupados();
-        double porcentajeOcupacion();
-}
-;
+        void mostrarEstado() const;
+        int calcDisponibles() const;
+        int calcOcupados() const;
+        double porcentajeOcupacion() const;
+};
 
 #endif

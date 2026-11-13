@@ -1,25 +1,26 @@
-#include <iostream>
 #include "Estacionado.hpp"
+#include <iostream>
 
-Estacionado:: Estacionado(std::string numP, std::string nom, bool tipo, int numS, std:: string id): Solicitud(numP, nom, tipo, numS){
-    this->idAutorizacion=id;
-    this->columna=-1;
-    this->fila=-1;
-
-}
-Estacionado:: ~Estacionado(){
-
+Estacionado::Estacionado(std::string numP, std::string nom, bool tipo, int numS, std::string id, int f, int c)
+    : Solicitud(numP, nom, tipo, numS) {
+    this->idAutorizacion = id;
+    this->fila = f;
+    this->columna = c;
 }
 
-int Estacionado:: getFila(){
-    return fila;
-}
+Estacionado::~Estacionado() {}
 
-int Estacionado:: getColumna(){
-    return columna;
-}
+int Estacionado::getFila() const { return this->fila; }
+int Estacionado::getColumna() const { return this->columna; }
+std::string Estacionado::getID() const { return this->idAutorizacion; }
 
-std:: string Estacionado:: getID(){
-    return idAutorizacion;
-}
+void Estacionado::setFila(int f) { this->fila = f; }
+void Estacionado::setColumna(int c) { this->columna = c; }
 
+void Estacionado::mostrarDatos() const {
+    std::cout << "Placa: " << this->numPlaca
+              << " | Propietario: " << this->nombrePropietario
+              << " | Tipo: " << (this->tipoVehiculo ? "Automovil" : "Motocicleta")
+              << " | Espacio: (" << this->fila + 1 << "," << this->columna + 1 << ")"
+              << " | Encargado: " << this->idAutorizacion << std::endl;
+}

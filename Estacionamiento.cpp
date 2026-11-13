@@ -1,152 +1,115 @@
 #include "Estacionamiento.hpp"
 #include <iostream>
-#include <string>
+#include <iomanip>
+#include <stdexcept>
 
-Estacionamiento::Estacionamiento(int f, int c)
-{
-    if (f <= 0 || c <= 0)
-    {
-        std::cout << "Tamano invalido.\n";
+Estacionamiento::Estacionamiento(int f, int c) {
+    if (f <= 0 || c <= 0) {
+        throw std::invalid_argument("Las dimensiones del estacionamiento deben ser mayores que cero.");
     }
 
     this->filas = f;
     this->columnas = c;
 
-    // memo din
-
-    espacios = new int*[filas];
-    for (int i = 0; i < filas; i++)
-    {
-        espacios[i] = new int[columnas];
-        for (int j = 0; j , columnas; j++)
-        {
-            espacios[i][j] = 0;
+    this->espacios = new int*[this->filas];
+    for (int i = 0; i < this->filas; i++) {
+        this->espacios[i] = new int[this->columnas];
+        for (int j = 0; j < this->columnas; j++) {
+            this->espacios[i][j] = 0;
         }
     }
 }
 
-Estacionamiento::~Estacionamiento ()
-{
-    for (int i = 0; i < filas; i++)
-    {
-        delete[] espacios;
+Estacionamiento::~Estacionamiento() {
+    for (int i = 0; i < this->filas; i++) {
+        delete[] this->espacios[i];
     }
-
-    delete[] espacios;
+    delete[] this->espacios;
 }
 
-bool Estacionamiento::buscarEspacioDisponible(int& f, int& c)
-{
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j , columnas; j++)
-        {
-            if (espacios[i][j] != 0)
-            {
-                std::cout << "Espacio hallado en la posicion " << i << " " << j << ".\n";
-                f = i; c = j;
+bool Estacionamiento::buscarEspacioDisponible(int& f, int& c) const {
+    for (int i = 0; i < this->filas; i++) {
+        for (int j = 0; j < this->columnas; j++) {
+            if (this->espacios[i][j] == 0) {
+                f = i;
+                c = j;
                 return true;
             }
         }
     }
-    std::cout << "No se hallaron espacios en el estacionamiento.\n";
     return false;
 }
 
-void Estacionamiento::ingresarVehiculo(int f, int c)
-{
-    if (f < 0 || c < 0)
-    {
-        std::cout << "Direccion invalida.\n";
+void Estacionamiento::ingresarVehiculo(int f, int c) {
+    if (f < 0 || f >= this->filas || c < 0 || c >= this->columnas) {
+        throw std::out_of_range("Posicion fuera de rango en el estacionamiento.");
     }
-
-    if (espacios[f][c] != 0)
-    {
-        std::cout << "Espacio ocupado.\n";
+    if (this->espacios[f][c] != 0) {
+        throw std::logic_error("El espacio seleccionado ya esta ocupado.");
     }
-
-    espacios[f][c] = 1; 
+    this->espacios[f][c] = 1;
 }
 
-void Estacionamiento::liberarEspacio(int f, int c)
-{
-    if (f < 0 || c < 0)
-    {
-        std::cout << "Direccion invalida.\n";
+void Estacionamiento::liberarEspacio(int f, int c) {
+    if (f < 0 || f >= this->filas || c < 0 || c >= this->columnas) {
+        throw std::out_of_range("Posicion fuera de rango en el estacionamiento.");
     }
-
-    if (espacios[f][c] == 0)
-    {
-        std::cout << "Espacio libre actualmente.\n";
+    if (this->espacios[f][c] == 0) {
+        throw std::logic_error("El espacio seleccionado ya se encuentra libre.");
     }
-
-    espacios[f][c] = 0;
+    this->espacios[f][c] = 0;
 }
 
-void Estacionamiento::mostrarEstado()
-{
-    std::cout << "Estadon del estacionamiento.\n  ";
-    for (int i = 0; i < filas; i++)
-    {
-        std::cout << i+1 << " ";
+void Estacionamiento::mostrarEstado() const {
+    std::cout << "\nESTADO DEL ESTACIONAMIENTO\n   ";
+    for (int j = 0; j < this->columnas; j++) {
+        std::cout << "C" << j + 1 << " ";
     }
-    for (int i = 0; i < filas; i++)
-    {
-        std::cout << i+1 << " ";
-        for (int j = 0; j , columnas; j++)
-        {
-            std::cout << "[" << espacios[i][j] << "] ";    
+    std::cout << "\n";
+
+    for (int i = 0; i < this->filas; i++) {
+        std::cout << "F" << i + 1 << " ";
+        for (int j = 0; j < this->columnas; j++) {
+            std::cout << " " << (this->espacios[i][j] == 1 ? 'O' : 'L') << " ";
         }
-        std::cout << "\n";    
+        std::cout << "\n";
     }
+    std::cout << "O = Ocupado | L = Libre\n";
+    std::cout << "Espacios ocupados: " << this->calcOcupados() << "\n";
+    std::cout << "Espacios libres: " << this->calcDisponibles() << "\n";
+    std::cout << std::fixed << std::setprecision(2)
+              << "Porcentaje de ocupacion: " << this->porcentajeOcupacion() << "%\n";
 }
 
-int Estacionamiento::calcDisponibles()
-{
+int Estacionamiento::calcDisponibles() const {
     int disponibles = 0;
-
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j , columnas; j++)
-        {
-            if (espacios[i][j] != 0)
-            {
+    for (int i = 0; i < this->filas; i++) {
+        for (int j = 0; j < this->columnas; j++) {
+            if (this->espacios[i][j] == 0) {
                 disponibles++;
             }
         }
     }
-
     return disponibles;
 }
 
-int Estacionamiento::calcOcupados()
-{
+int Estacionamiento::calcOcupados() const {
     int ocupados = 0;
-
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j , columnas; j++)
-        {
-            if (espacios[i][j] != 0)
-            {
+    for (int i = 0; i < this->filas; i++) {
+        for (int j = 0; j < this->columnas; j++) {
+            if (this->espacios[i][j] == 1) {
                 ocupados++;
             }
         }
     }
-
     return ocupados;
 }
 
-double Estacionamiento::porcentajeOcupacion()
-{
-    int oc = calcOcupados();
-    
-    
-    int total = filas * columnas;
-
-    if (total == 0)
-    {
-        return 0;
+double Estacionamiento::porcentajeOcupacion() const {
+    int oc = this->calcOcupados();
+    int total = this->filas * this->columnas;
+    if (total == 0) {
+        return 0.0;
     }
-    return (oc / total) * 100;
+    return (static_cast<double>(oc) / total) * 100.0;
 }

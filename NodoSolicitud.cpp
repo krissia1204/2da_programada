@@ -1,15 +1,12 @@
 #include "NodoSolicitud.hpp"
-#include <iostream>
 
-NodoSolicitud:: NodoSolicitud(Solicitud* s){
-    this->dato=s;
+NodoSolicitud::NodoSolicitud(Solicitud* s) {
+    this->dato = s;
     this->siguiente = nullptr;
 }
 
-NodoSolicitud:: ~NodoSolicitud(){
+NodoSolicitud::~NodoSolicitud() {}
 
-}
-
-Solicitud* NodoSolicitud:: getSolicitud(){ return this->dato; }
-NodoSolicitud* NodoSolicitud:: getSiguiente(){ return this->siguiente; }
-void NodoSolicitud:: setSiguiente(NodoSolicitud* n){ this->siguiente = n;}
+Solicitud* NodoSolicitud::getSolicitud() const { return this->dato; }
+NodoSolicitud* NodoSolicitud::getSiguiente() const { return this->siguiente; }
+void NodoSolicitud::setSiguiente(NodoSolicitud* n) { this->siguiente = n; }
