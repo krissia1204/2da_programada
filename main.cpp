@@ -28,7 +28,7 @@ void verificarPrueba(bool condicion, const std::string& descripcion) {
 }
 
 void ejecutarPruebasAutomatizadas() {
-    std::cout << "\nEjecutando bateria de 14 pruebas automatizadas...\n";
+    std::cout << "\nEjecutando 14 pruebas automatizadas...\n";
 
     // Pruebas 1, 2, 3 y 14: Lista simple e iteradores en lista vacia
     ListaSolicitud listaSol;
